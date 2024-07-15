@@ -125,6 +125,11 @@ Resources:
           SourceCidrIp: 0.0.0.0/0
           IpProtocol: tcp
           NicType: internet
+        - PortRange: 8080/8080
+          Priority: 1
+          SourceCidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          NicType: internet
   InstanceGroup:
     Type: ALIYUN::ECS::InstanceGroup
     Properties:
@@ -187,7 +192,7 @@ Outputs:
       zh-cn: 访问页面。
     Value:
       Fn::Sub:
-        - 'http://${ServerAddress}:80'
+        - 'http://${ServerAddress}:8080'
         - ServerAddress:
             Fn::Select:
             - 0
