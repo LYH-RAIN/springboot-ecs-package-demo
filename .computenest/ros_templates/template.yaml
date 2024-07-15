@@ -130,6 +130,11 @@ Resources:
           SourceCidrIp: 0.0.0.0/0
           IpProtocol: tcp
           NicType: internet
+        - PortRange: 22/22
+          Priority: 1
+          SourceCidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          NicType: internet
   InstanceGroup:
     Type: ALIYUN::ECS::InstanceGroup
     Properties:
@@ -175,12 +180,7 @@ Resources:
             # 源代码通过computenest-cli被打包为tar.gz包，并发布为部署物
             wget '{{ computenest::file::LYH-RAIN_springboot-ecs-package-demo }}' -O LYH-RAIN_springboot-ecs-package-demo.tar.gz > /var/log/download.log
             tar -zxvf LYH-RAIN_springboot-ecs-package-demo.tar.gz && cd "$(tar -tzf LYH-RAIN_springboot-ecs-package-demo.tar.gz | head -1 | awk -F'/' '{print $1}')"
-            yum install -y java
-            mkdir -p /home/admin/application
-            cp package.tgz /home/admin/application
-            cd /home/admin/application
-            tar xvf package.tgz
-            /bin/bash deploy.sh start
+            ./deploy.sh
 
             ARGUS_VERSION=3.5.7 /bin/bash -c "$(curl -sS https://cms-agent-${RegionId}.oss-${RegionId}-internal.aliyuncs.com/Argus/agent_install_ecs-1.7.sh)" >> /root/install_cms_agent.log 2>&1
           - RegionId:
